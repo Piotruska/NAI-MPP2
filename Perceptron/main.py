@@ -9,7 +9,7 @@ f1 = open(TrainingFile, "r")
 TraningData = []
 answerList = [] #  [value for 0, value for 1]
 for x in f1.readlines():
-    line = x.split(',')
+    line = (x.strip("\n")).split(',')
     if line[-1] not in answerList:
         answerList.append(line[-1])
     TraningData.append(line)
