@@ -20,7 +20,7 @@ if TestFile == "": TestFile = "perceptron.test.data"
 f2 = open(TestFile, "r")
 TestData = []
 for x in f2.readlines():
-    TraningData.append(x.split(','))
+    TestData.append((x.strip("\n")).split(','))
 
 # Calculate vector length
 vectorLength = len(TraningData[0]) - 1
@@ -30,10 +30,8 @@ weightVector = [random.random() for i in range(vectorLength)]
 
 # set all base values
 bias = random.random()
-LearningRate = float(input("Learning rate (alpha): "))
-if LearningRate == "": TestFile = 0.01
-errorMax = float(input("Error Threshold: "))
-if errorMax == "": TestFile = 0.1
+LearningRate = float(input("Learning rate (alpha) eg, 0.01: "))
+errorMax = float(input("Error Threshold eg. 0.1: "))
 
 
 def Train():
@@ -49,13 +47,13 @@ def Train():
             net = net - bias
             if net >= 0: y = 1
             if net < 0: y = 0
-            if x[vectorLength + 1] == answerList[0]: d = 0
-            if x[vectorLength + 1] == answerList[1]: d = 1
+            if x[vectorLength] == answerList[0]: d = 0
+            if x[vectorLength] == answerList[1]: d = 1
 
             if y != d:
                 for i in range(vectorLength):
                     weightVector[i] = weightVector[i] + (LearningRate * (d - y) * float(x[i]))
-                bias = bias - (LearningRate * (d - y))
+                bias = (bias - (LearningRate * (d - y)))
         runFlag = ErrorCheck()
 
 
@@ -65,8 +63,9 @@ def ErrorCheck():
         if answerList[classyfy(vector)] != vector[-1]:
             error += 1
     error = error / len(TestData)
+    print(f"E: {error} W: {weightVector}  B: {bias}")
     if error <= errorMax:
-        return False;
+        return False
     else:
         return True
 
@@ -78,3 +77,17 @@ def classyfy(vector):
     net = net - bias
     if net >= 0: return 1
     if net < 0: return 0
+
+def TestCorrectness():
+    counttotal = 0
+    countcorrect = 0
+    for vector in TestData:
+        counttotal += 1
+        if answerList[classyfy(vector)] == vector[-1]:
+            countcorrect += 1
+    print(f"c: {countcorrect} , t: {counttotal}")
+    print(countcorrect/counttotal)
+
+
+Train()
+TestCorrectness()
