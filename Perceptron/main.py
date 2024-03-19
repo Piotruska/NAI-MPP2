@@ -26,13 +26,32 @@ for x in f2.readlines():
 vectorLength = len(TraningData[0])-1
 
 #randomise weight vector from [0,1]
-weigthVector = [random.random() for i in range(vectorLength)]
+weightVector = [random.random() for i in range(vectorLength)]
 
 # set all base values
-theta = random.random()
+bias = random.random()
 LearningRate = float(input("Learning rate (alpha): "))
 if LearningRate == "": TestFile = 0.01
 errorMax = float(input("Error Threshold: "))
 if errorMax == "": TestFile = 0.1
 
+def Train():
+    global weightVector, bias
+    runFlag = True
+    while runFlag:
+        for x in TraningData:
+            y = 0
+            d = 0
+            net = 0.0
+            for i in range(vectorLength):
+                net += float(x[i]) * (weightVector[i])
+            if net >= 0: y = 1
+            if net < 0: y = 0
+            if x[vectorLength+1] == answerList[0]: d = 0
+            if x[vectorLength+1] == answerList[1]: d = 1
 
+            if y != d:
+                for i in range(vectorLength):
+                    weightVector[i] = weightVector[i] + (LearningRate * (d-y) * float(x[i]))
+                bias = bias - (LearningRate * (d-y))
+        runFlag = ErrorCheck()
