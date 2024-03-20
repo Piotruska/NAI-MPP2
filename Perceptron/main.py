@@ -92,6 +92,16 @@ def menu():
     print("--------------")
     print("    Menu")
     print("--------------")
+    print("1. Test accuracy of Perceptron")
+    print("2. Clasyfy personal vector")
+    print("3. Draw Error/Epoch")
+    corect = False
+    while not corect:
+        userInput = int(input("Enter choise: "))
+        if userInput == 1
+
+
+
 
 menu()
 
