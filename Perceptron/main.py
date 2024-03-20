@@ -33,6 +33,9 @@ bias = random.random()
 LearningRate = float(input("Learning rate (alpha) eg, 0.01: "))
 errorMax = float(input("Error Threshold eg. 0.1: "))
 
+#for drawing graphs
+errorAmount = []
+iterationCount = []
 
 def Train():
     global weightVector, bias
@@ -87,6 +90,9 @@ def TestCorrectness():
             countcorrect += 1
     print(f"c: {countcorrect} , t: {counttotal}")
     print(f"{countcorrect/counttotal} %")
+
+def DrawGraph():
+
 
 def menu():
     exit = False
