@@ -1,6 +1,7 @@
 import fileinput
 import random
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Insert TrainingFile
 TrainingFile = str(input("Training File: "))
@@ -33,14 +34,17 @@ bias = random.random()
 LearningRate = float(input("Learning rate (alpha) eg, 0.01: "))
 errorMax = float(input("Error Threshold eg. 0.1: "))
 
-#for drawing graphs
-errorAmount = []
-iterationCount = []
+# for drawing graphs
+errorList = []
+EpochList = []
+
 
 def Train():
     global weightVector, bias
     runFlag = True
+    epoch = 0
     while runFlag:
+        epoch += 1
         for x in TraningData:
             y = 0
             d = 0
@@ -57,6 +61,7 @@ def Train():
                 for i in range(vectorLength):
                     weightVector[i] = weightVector[i] + (LearningRate * (d - y) * float(x[i]))
                 bias = (bias - (LearningRate * (d - y)))
+        EpochList.append(epoch)
         runFlag = ErrorCheck()
 
 
@@ -67,6 +72,7 @@ def ErrorCheck():
             error += 1
     error = error / len(TestData)
     print(f"E: {error} W: {weightVector}  B: {bias}")
+    errorList.append(error)
     if error <= errorMax:
         return False
     else:
@@ -81,6 +87,7 @@ def classyfy(vector):
     if net >= 0: return 1
     if net < 0: return 0
 
+
 def TestCorrectness():
     counttotal = 0
     countcorrect = 0
@@ -88,10 +95,23 @@ def TestCorrectness():
         counttotal += 1
         if answerList[classyfy(vector)] == vector[-1]:
             countcorrect += 1
+    print("\n")
+    print("Accuracy Test")
     print(f"c: {countcorrect} , t: {counttotal}")
-    print(f"{countcorrect/counttotal} %")
+    print(f"{countcorrect / counttotal} %")
+    print("\n")
+
 
 def DrawGraph():
+    plt.plot(EpochList, errorList, marker="x", linestyle=(0, ()), label=str("Learning rate: " + str(LearningRate)), color="black")
+    plt.plot(EpochList, np.poly1d(np.polyfit(EpochList, errorList, 1))(EpochList), color="red", linestyle=(0, (1, 1)))
+
+    plt.xlabel('Epoch')
+    plt.ylabel('Error value')
+    plt.title('Error valu / Epoch (iteration)')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
 
 def menu():
@@ -109,7 +129,7 @@ def menu():
         userVector = ""
         while not correct:
             userInput = input("Enter choise: ")
-            if userInput in ["1","2","3"]:
+            if userInput in ["1", "2", "3"]:
                 correct = True
         if userInput == "1":
             TestCorrectness()
@@ -119,13 +139,13 @@ def menu():
                 userVector = input(f"Enter Vector of length {vectorLength}, split witn ',': ")
                 if len(userVector.split(",")) == vectorLength:
                     correct = True
-            print(f"Cassified as: {answerList[classyfy(userVector)]}")
+            print("\n")
+            print(f"Cassified as: {answerList[classyfy(userVector.split(','))]}")
+            print("\n")
         elif userInput == "3":
-
+            DrawGraph()
         elif userInput == "4":
             exit = True
-
-
 
 
 Train()
