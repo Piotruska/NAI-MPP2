@@ -115,8 +115,8 @@ def DrawGraph():
 
 
 def menu():
-    exit = False
-    while not exit:
+    exitt = False
+    while not exitt:
         print("--------------")
         print("    Menu")
         print("--------------")
@@ -129,7 +129,7 @@ def menu():
         userVector = ""
         while not correct:
             userInput = input("Enter choise: ")
-            if userInput in ["1", "2", "3"]:
+            if userInput in ["1", "2", "3","4"]:
                 correct = True
         if userInput == "1":
             TestCorrectness()
@@ -145,7 +145,7 @@ def menu():
         elif userInput == "3":
             DrawGraph()
         elif userInput == "4":
-            exit = True
+            exitt = True
 
 
 Train()
