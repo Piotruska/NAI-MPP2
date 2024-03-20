@@ -86,24 +86,41 @@ def TestCorrectness():
         if answerList[classyfy(vector)] == vector[-1]:
             countcorrect += 1
     print(f"c: {countcorrect} , t: {counttotal}")
-    print(countcorrect/counttotal)
+    print(f"{countcorrect/counttotal} %")
 
 def menu():
-    print("--------------")
-    print("    Menu")
-    print("--------------")
-    print("1. Test accuracy of Perceptron")
-    print("2. Clasyfy personal vector")
-    print("3. Draw Error/Epoch")
-    corect = False
-    while not corect:
-        userInput = int(input("Enter choise: "))
-        if userInput == 1
+    exit = False
+    while not exit:
+        print("--------------")
+        print("    Menu")
+        print("--------------")
+        print("1. Test accuracy of Perceptron")
+        print("2. Clasyfy personal vector")
+        print("3. Draw Error/Epoch")
+        print("4. Exit")
+        correct = False
+        userInput = ""
+        userVector = ""
+        while not correct:
+            userInput = input("Enter choise: ")
+            if userInput in ["1","2","3"]:
+                correct = True
+        if userInput == "1":
+            TestCorrectness()
+        elif userInput == "2":
+            correct = False
+            while not correct:
+                userVector = input(f"Enter Vector of length {vectorLength}, split witn ',': ")
+                if len(userVector.split(",")) == vectorLength:
+                    correct = True
+            print(f"Cassified as: {answerList[classyfy(userVector)]}")
+        elif userInput == "3":
+
+        elif userInput == "4":
+            exit = True
 
 
 
-
-menu()
 
 Train()
-TestCorrectness()
+menu()
