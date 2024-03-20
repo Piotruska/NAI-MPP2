@@ -88,6 +88,12 @@ def TestCorrectness():
     print(f"c: {countcorrect} , t: {counttotal}")
     print(countcorrect/counttotal)
 
+def menu():
+    print("--------------")
+    print("    Menu")
+    print("--------------")
+
+menu()
 
 Train()
 TestCorrectness()
